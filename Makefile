@@ -5,12 +5,12 @@ LIBFTPRINTF = ft_printf/libftprintf.a
 LIBFT = ft_printf/libft/libft.a
 LIBS = $(LIB) $(LIBFTPRINTF) $(LIBFT)
 
-SRCS = pipex.c
+SRCS = pipex.c error_handle.c path_parser.c free_double_ptr.c cmd_runner.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 FT_PRINTF_PATH = -C ft_printf
 
@@ -25,10 +25,11 @@ $(NAME): $(OBJS)
 
 clean:
 	$(MAKE) $@ $(FT_PRINTF_PATH)
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(LIB)
 
 fclean: clean
 	$(MAKE) $@ $(FT_PRINTF_PATH)
-	rm -f $(LIB) $(NAME)
+	rm -f $(NAME)
 
 re: fclean all
+

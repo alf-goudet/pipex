@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   free_double_ptr.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agoudet- <agoudet-@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/10 16:27:45 by agoudet-          #+#    #+#             */
-/*   Updated: 2026/04/28 18:07:14 by agoudet-         ###   ########.fr       */
+/*   Created: 2026/04/27 21:39:41 by agoudet-          #+#    #+#             */
+/*   Updated: 2026/04/27 21:40:46 by agoudet-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+void	free_double_ptr(char **ptr)
 {
-	get_program(argc, argv, envp);
-	exit(EXIT_SUCCESS);
+	int	i;
+
+	i = 0;
+	while (ptr[i] != NULL)
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
 }
+

@@ -6,7 +6,7 @@
 /*   By: agoudet- <agoudet-@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 12:47:37 by agoudet-          #+#    #+#             */
-/*   Updated: 2026/02/02 19:02:05 by agoudet-         ###   ########.fr       */
+/*   Updated: 2026/04/29 13:53:38 by agoudet-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ size_t	ft_uintlen(unsigned int n, int const need_hex);
 char	*ft_ltoa(long n);
 char	*ft_ultoa(unsigned long n);
 size_t	ft_ulonglen(unsigned long n, int const need_hex);
+char	*ft_getenv_p(const char *name, char **envp);
 
 #endif

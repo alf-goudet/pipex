@@ -5,7 +5,7 @@ SRCS = ft_printf.c ft_printf_convs.c ft_printf_utils.c \
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 LIBFT_PATH = -C libft
 
@@ -23,7 +23,7 @@ clean:
 	$(MAKE) $@ $(LIBFT_PATH)
 	rm -f $(OBJS)
 
-fclean: clean
+fclean:
 	$(MAKE) $@ $(LIBFT_PATH)
 	rm -f $(NAME)	
 
