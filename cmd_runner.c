@@ -6,20 +6,67 @@
 /*   By: agoudet- <agoudet-@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:23:37 by agoudet-          #+#    #+#             */
-/*   Updated: 2026/04/29 13:55:47 by agoudet-         ###   ########.fr       */
+/*   Updated: 2026/04/30 20:32:20 by agoudet-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	get_cmd_argc(char **split_argv)
+static void	parse_cmd_argv(char **cmd_argv, char **envp);
+
+static char	*replace_with_home(char *path, char **envp);
+
+static void	run_program(char *prog_path, char **cmd_argv, char **envp);
+
+void	get_program(char *cmd_arg, char **envp)
+{
+	char	**cmd_argv;
+	char	*prog_path;
+
+	cmd_argv = ft_split(cmd_arg, ' ');
+	check_double_ptr_error("ft_split()", cmd_argv);
+	parse_cmd_argv(cmd_argv, envp);
+	prog_path = get_cmd_path(envp, *cmd_argv);
+	check_ptr_error("Command not found", prog_path);
+	run_program(prog_path, cmd_argv, envp);
+}
+
+static void	parse_cmd_argv(char **cmd_argv, char **envp)
 {
 	int	i;
 
-	i = 1;
-	while (split_argv[i] != NULL)
+	i = 0;
+	while (cmd_argv[i] != NULL)
+	{
+		if (cmd_argv[i][0] == '~')
+			cmd_argv[i] = replace_with_home(cmd_argv[i], envp);
 		i++;
-	return (i);
+	}
+}
+
+static char	*replace_with_home(char *path, char **envp)
+{
+	char	*home_path;
+	char	*old_path;
+	char	*sub_path;
+	int		no_sub_path;
+	size_t	sub_path_len;
+
+	home_path = ft_getenv_p("HOME", envp);
+	old_path = path;
+	no_sub_path = *(path + 1) == '\0';
+	if (no_sub_path)
+		path = ft_strdup(home_path);
+	else
+	{
+		sub_path_len = ft_strlen(path) - 1;
+		sub_path = ft_substr(path, 1, sub_path_len);
+		path = ft_strjoin(home_path, sub_path);
+		free(sub_path);
+	}
+	check_ptr_error("ft_strdup()", path);
+	free(old_path);
+	return (path);
 }
 
 static void	run_program(char *prog_path, char **cmd_argv, char **envp)
@@ -38,33 +85,7 @@ static void	run_program(char *prog_path, char **cmd_argv, char **envp)
 	{
 		pid = wait(NULL);
 		check_proc_error("wait()", (int)pid);
+		free(prog_path);
 		free_double_ptr(cmd_argv);
 	}
-}
-
-void	get_program(int argc, char **argv, char **envp)
-{
-	char	**cmd_argv;
-	char	**split_argv;
-	char	*prog_path;
-	int		cmd_argc;
-	int		i;
-
-	split_argv = ft_split(argv[1], ' ');
-	check_double_ptr("ft_split()", split_argv);
-	cmd_argc = get_cmd_argc(split_argv);
-	cmd_argv = (char **)malloc((argc + cmd_argc) * sizeof(char *));
-	check_double_ptr("malloc()", cmd_argv);
-	prog_path = get_cmd_path(envp, *split_argv);
-	check_ptr("Command not found", prog_path);
-	free(*split_argv);
-	cmd_argv[0] = prog_path;
-	i = 1;
-	while (i < cmd_argc)
-	{
-		cmd_argv[i] = split_argv[i];
-		i++;
-	}
-	free(split_argv);
-	run_program(prog_path, cmd_argv, envp);
 }

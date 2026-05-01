@@ -6,7 +6,7 @@
 /*   By: agoudet- <agoudet-@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 21:11:01 by agoudet-          #+#    #+#             */
-/*   Updated: 2026/04/28 18:54:14 by agoudet-         ###   ########.fr       */
+/*   Updated: 2026/04/30 16:57:46 by agoudet-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	check_proc_error(char *proc, const int value)
 	}
 }
 
-void	check_ptr(char *func, char *ptr)
+void	check_ptr_error(char *func, char *ptr)
 {
 	if (ptr == NULL)
 	{
@@ -34,7 +34,7 @@ void	check_ptr(char *func, char *ptr)
 	}
 }
 
-void	check_double_ptr(char *func, char **ptr)
+void	check_double_ptr_error(char *func, char **ptr)
 {
 	if (ptr == NULL)
 	{

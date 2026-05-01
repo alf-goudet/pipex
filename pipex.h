@@ -6,7 +6,7 @@
 /*   By: agoudet- <agoudet-@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 16:30:12 by agoudet-          #+#    #+#             */
-/*   Updated: 2026/04/29 13:48:13 by agoudet-         ###   ########.fr       */
+/*   Updated: 2026/04/30 16:47:27 by agoudet-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 
 char	*get_cmd_path(char **envp, char *cmd);
 void	free_double_ptr(char **ptr);
-void	get_program(int argc, char **argv, char **envp);
+void	get_program(char *cmd_arg, char **envp);
 
 // Error checkers (at error_handle.c)
 void	check_proc_error(char *proc, const int value);
-void	check_double_ptr(char *func, char **ptr);
-void	check_ptr(char *func, char *ptr);
+void	check_ptr_error(char *func, char *ptr);
+void	check_double_ptr_error(char *func, char **ptr);
 
 #endif
