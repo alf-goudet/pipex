@@ -5,7 +5,8 @@ LIBFTPRINTF = ft_printf/libftprintf.a
 LIBFT = ft_printf/libft/libft.a
 LIBS = $(LIB) $(LIBFTPRINTF) $(LIBFT)
 
-SRCS = pipex.c error_handle.c path_parser.c free_double_ptr.c cmd_runner.c
+SRCS = pipex.c error_handle.c path_parser.c free_double_ptr.c cmd_runner.c \
+	   put_redir.c
 
 OBJS = $(SRCS:.c=.o)
 

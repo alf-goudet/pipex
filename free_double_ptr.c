@@ -6,7 +6,7 @@
 /*   By: agoudet- <agoudet-@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 21:39:41 by agoudet-          #+#    #+#             */
-/*   Updated: 2026/04/27 21:40:46 by agoudet-         ###   ########.fr       */
+/*   Updated: 2026/04/30 20:32:36 by agoudet-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,3 @@ void	free_double_ptr(char **ptr)
 	}
 	free(ptr);
 }
-

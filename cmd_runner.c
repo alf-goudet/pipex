@@ -6,7 +6,7 @@
 /*   By: agoudet- <agoudet-@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:23:37 by agoudet-          #+#    #+#             */
-/*   Updated: 2026/04/30 20:32:20 by agoudet-         ###   ########.fr       */
+/*   Updated: 2026/05/03 21:02:50 by agoudet-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,17 @@ static void	parse_cmd_argv(char **cmd_argv, char **envp);
 
 static char	*replace_with_home(char *path, char **envp);
 
-static void	run_program(char *prog_path, char **cmd_argv, char **envp);
+static void	run_program(t_cmd *cmd, char **envp);
 
-void	get_program(char *cmd_arg, char **envp)
+void	get_program(t_cmd *cmd, char *cmd_arg, char **envp)
 {
-	char	**cmd_argv;
-	char	*prog_path;
-
-	cmd_argv = ft_split(cmd_arg, ' ');
-	check_double_ptr_error("ft_split()", cmd_argv);
-	parse_cmd_argv(cmd_argv, envp);
-	prog_path = get_cmd_path(envp, *cmd_argv);
-	check_ptr_error("Command not found", prog_path);
-	run_program(prog_path, cmd_argv, envp);
+	cmd->argv = ft_split(cmd_arg, ' ');
+	check_double_ptr_error("ft_split()", cmd->argv);
+	parse_cmd_argv(cmd->argv, envp);
+	cmd->name = cmd->argv[0];
+	cmd->exec_path = get_cmd_path(envp, cmd->name);
+	check_ptr_error("Command not found", cmd->exec_path);
+	run_program(cmd, envp);
 }
 
 static void	parse_cmd_argv(char **cmd_argv, char **envp)
@@ -69,7 +67,7 @@ static char	*replace_with_home(char *path, char **envp)
 	return (path);
 }
 
-static void	run_program(char *prog_path, char **cmd_argv, char **envp)
+static void	run_program(t_cmd *cmd, char **envp)
 {
 	pid_t	pid;
 	int		exec_check;
@@ -78,14 +76,15 @@ static void	run_program(char *prog_path, char **cmd_argv, char **envp)
 	check_proc_error("fork()", (int)pid);
 	if (pid == 0)
 	{
-		exec_check = execve(prog_path, cmd_argv, envp);
+		cmd->redirect_put(cmd->targ_file);
+		exec_check = execve(cmd->exec_path, cmd->argv, envp);
 		check_proc_error("execve()", exec_check);
 	}
 	else
 	{
 		pid = wait(NULL);
 		check_proc_error("wait()", (int)pid);
-		free(prog_path);
-		free_double_ptr(cmd_argv);
+		free(cmd->exec_path);
+		free_double_ptr(cmd->argv);
 	}
 }
